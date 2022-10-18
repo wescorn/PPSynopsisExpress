@@ -1,0 +1,38 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>Express</h1>
+  <p>Welcome to Express</p>
+  <button id="cancelTaskBtn">Cancel Worker</button>
+  <script type="text/javascript">
+    /**
+* In order to avoid having to make a separate js file for every type of worker, you can provide this method with the contents of a worker.js file, but in the form of a function.
+* This method will then extract the contents of the provided function and put it in an in-memory js file behind the scenes, and return the path to said js file, which you can then use to
+* create workers.
+* @param {Function} workerFunction - The the worker.js file, but within a function. Should contain a definition of onmessage.
+* @returns {String} - path to your new worker.js file
+*/
+function MakeWorkerPath(workerFunction) {
+var wfnc = workerFunction.toString();
+const bracketPos = wfnc.indexOf("{");
+var blob = new Blob(
+ [wfnc.substr(bracketPos, wfnc.length - bracketPos+1)],
+ { type: 'text/javascript' }
+);
+return window.URL.createObjectURL(blob);
+}
+</script>
+
+<script src="/js/site.js"></script>
+<script src="/js/TaskCancellation.js"></script>
+<script src="/js/PrimesWorker.js"></script>
+<script src="/js/ArraySumWorker.js"></script>
+
+</body>
+
+</html>
