@@ -1,16 +1,26 @@
-var m_worker = new Worker('js/TaskCancelWorker.js');
+var ten_worker = new Worker('js/TaskCancelWorker.js');
+var five_worker = new Worker('js/TaskCancelWorker.js');
 
-m_worker.postMessage("Start Working")
+ten_worker.postMessage(["start working", 10])
+five_worker.postMessage(["start working", 5])
 
-m_worker.onmessage = function (event) {
+ten_worker.onmessage = function (event) {
+    console.log('worker returned data: ',event.data);
+};
+
+five_worker.onmessage = function (event) {
     console.log('worker returned data: ',event.data);
 };
 
 document.getElementById("cancelTaskBtn").addEventListener("click", function () {
-    m_worker.postMessage("Stop Working")
-    console.log('Worker stopped');
+    ten_worker.postMessage(["Stop Working"]) 
+    five_worker.postMessage(["Stop Working"])
 });
 
-m_worker.onerror = function (event) {
+ten_worker.onerror = function (event) {
+    console.log('Error in main', event.message);
+};
+
+five_worker.onerror = function (event) {
     console.log('Error in main', event.message);
 };
