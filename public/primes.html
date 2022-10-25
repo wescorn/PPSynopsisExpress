@@ -1,0 +1,65 @@
+<html>
+
+<head>
+  <title>PrimeCalculator!</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>PrimeCalculator Example</h1>
+  <table>
+    <tr>
+      <th>PrimeCalculator (Parallel) - <span bold> Max Workers: </span>  <input type="text" id="PrimeMaxWorkers" name="PrimeMaxWorkers" placeholder="from" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0"/></th>
+      <!-- <th>PrimeCalculator (Sequential)</th> -->
+    </tr>
+    <tr>
+      <td>
+        <button id="btnPrimeParallel">Primes In Parallel</button> 
+        <input type="text" id="iPrimeParallelFrom" name="PrimeParallelFrom" placeholder="from" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="1"/>
+         - 
+         <input type="text" id="iPrimeParallelTo" name="PrimeParallelTo" placeholder="to" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="10000000"/>
+         <label id="ParallelPrimesDone" hidden> ✓ Calculated and Sorted in <label id="ParaElapsedTime"></label> seconds! </label> 
+         </td>
+      <!-- <td>
+        <button id="btnPrimeSequential">Primes In Sequential</button> 
+        <input type="text" id="iPrimeSequentialFrom" name="PrimeSequentialFrom" placeholder="from" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="1"/>
+         - 
+         <input type="text" id="iPrimeSequentialTo" name="PrimeSequentialTo" placeholder="to" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="10000000"/>
+         <label id="SequentialPrimesDone" hidden> ✓ Calculated and Sorted in <label id="SeqElapsedTime"></label> seconds! </label> 
+
+         </td> -->
+    </tr>
+  </table>
+
+  <div id="scrollable_list"> 
+    <select name="primes_list" id="primes_list" multiple>
+    </select>
+    <ul id="workerList">
+    </ul>
+  </div>
+  
+  <script type="text/javascript">
+/**
+* In order to avoid having to make a separate js file for every type of worker, you can provide this method with the contents of a worker.js file, but in the form of a function.
+* This method will then extract the contents of the provided function and put it in an in-memory js file behind the scenes, and return the path to said js file, which you can then use to
+* create workers.
+* @param {Function} workerFunction - The the worker.js file, but within a function. Should contain a definition of onmessage.
+* @returns {String} - path to your new worker.js file
+*/
+function MakeWorkerPath(workerFunction) {
+  var wfnc = workerFunction.toString();
+  const bracketPos = wfnc.indexOf("{");
+  var blob = new Blob(
+   [wfnc.substr(bracketPos, wfnc.length - bracketPos+1)],
+   { type: 'text/javascript' }
+  );
+  return window.URL.createObjectURL(blob);
+}
+</script>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/PrimesWorker.js"></script>
+
+</body>
+
+</html>

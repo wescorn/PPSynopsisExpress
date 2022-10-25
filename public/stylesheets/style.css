@@ -6,3 +6,24 @@ body {
 a {
   color: #00B7FF;
 }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+#scrollable_list select{height:200px; width:18%;}
+#scrollable_list select{overflow:hidden; overflow-y:scroll;}
